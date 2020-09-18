@@ -55,8 +55,9 @@ var TTT = function () {
         this.board[row][col] = 'O';
       }
       // after any turn, check for a win (slightly inefficient)
-      if (this.checkWin()) {
+      if (this.checkWin()[0]) {
         console.log('That\'s a win!');
+        document.getElementById('outcome').innerHTML = `${this.checkWin()[1]} wins!`;
         this.gameOver = true;
       } else {
         this.xTurn = !this.xTurn;
@@ -72,7 +73,7 @@ var TTT = function () {
       if (this.board[i][0] !== '&nbsp' &&
         this.board[i][0] === this.board[i][1] &&
         this.board[i][1] === this.board[i][2]) {
-        return true;
+        return [true, this.board[i][0]];
       }
     }
 
@@ -81,7 +82,7 @@ var TTT = function () {
       if (this.board[0][i] !== '&nbsp' &&
         this.board[0][i] === this.board[1][i] &&
         this.board[1][i] === this.board[2][i]) {
-        return true;
+        return [true, this.board[0][i]];
       }
     }
 
@@ -89,12 +90,12 @@ var TTT = function () {
     if (this.board[0][0] !== '&nbsp' &&
       this.board[0][0] === this.board[1][1] &&
       this.board[1][1] === this.board[2][2]) {
-      return true;
+      return [true, this.board[0][0]];
     }
     if (this.board[0][2] !== '&nbsp' &&
       this.board[0][2] === this.board[1][1] &&
       this.board[1][1] === this.board[2][0]) {
-      return true;
+      return [true, this.board[0][2]];
     }
 
     // if no wins, return false
@@ -113,6 +114,7 @@ var TTT = function () {
     }
     this.gameOver = false;
     this.xTurn = true;
+    document.getElementById('outcome').innerHTML = ``;
   }
 
 }
