@@ -70,6 +70,13 @@ var TTT = function () {
         console.log('horizontal win');
       }
     }
+
+    // check vertical wins
+    for (var i = 0; i < this.board.length; i++) {
+      if (this.board[0][i] !== '&nbsp' && this.board[0][i] === this.board[1][i] && this.board[1][i] === this.board[2][i]) {
+        console.log('vertical win')
+      }
+    }
   }
 
   // function passed to clear button at end of board that empties every space on board
