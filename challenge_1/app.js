@@ -54,8 +54,8 @@ var TTT = function () {
         item.innerHTML = 'O';
         this.board[row][col] = 'O';
       }
-      // console.log(row, col)
-      this.checkWin();
+      // after any turn, check for a win (slightly inefficient)
+      this.checkWin() ? console.log('win') : null;
       this.xTurn = !this.xTurn;
     }
   }
@@ -63,20 +63,37 @@ var TTT = function () {
   // function that detects wins and ends the game if there is a win
   // break into different functions for each direction?
   this.checkWin = () => {
-    // debugger;
     // check horizontal wins
     for (var i = 0; i < this.board.length; i++) {
-      if (this.board[i][0] !== '&nbsp' && this.board[i][0] === this.board[i][1] && this.board[i][0] === this.board[i][2]) {
-        console.log('horizontal win');
+      if (this.board[i][0] !== '&nbsp' &&
+        this.board[i][0] === this.board[i][1] &&
+        this.board[i][1] === this.board[i][2]) {
+        return true;
       }
     }
 
     // check vertical wins
     for (var i = 0; i < this.board.length; i++) {
-      if (this.board[0][i] !== '&nbsp' && this.board[0][i] === this.board[1][i] && this.board[1][i] === this.board[2][i]) {
-        console.log('vertical win')
+      if (this.board[0][i] !== '&nbsp' &&
+        this.board[0][i] === this.board[1][i] &&
+        this.board[1][i] === this.board[2][i]) {
+        return true;
       }
     }
+
+    // check for diagonal wins
+    if (this.board[0][0] !== '&nbsp' &&
+      this.board[0][0] === this.board[1][1] &&
+      this.board[1][1] === this.board[2][2]) {
+      return true;
+    }
+    if (this.board[0][2] !== '&nbsp' &&
+      this.board[0][2] === this.board[1][1] &&
+      this.board[1][1] === this.board[2][0]) {
+      return true;
+    }
+
+    return false;
   }
 
   // function passed to clear button at end of board that empties every space on board
