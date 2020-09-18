@@ -1,4 +1,4 @@
-console.log('JS script loaded')
+console.log('JS loaded')
 
 // class constructor for a tic tac toe board
 var TTT = function () {
@@ -55,8 +55,12 @@ var TTT = function () {
         this.board[row][col] = 'O';
       }
       // after any turn, check for a win (slightly inefficient)
-      this.checkWin() ? console.log('win') : null;
-      this.xTurn = !this.xTurn;
+      if (this.checkWin()) {
+        console.log('That\'s a win!');
+        this.gameOver = true;
+      } else {
+        this.xTurn = !this.xTurn;
+      }
     }
   }
 
@@ -93,14 +97,13 @@ var TTT = function () {
       return true;
     }
 
+    // if no wins, return false
     return false;
   }
 
   // function passed to clear button at end of board that empties every space on board
   // also resets turns so X is first every time
   this.clearBoard = () => {
-    // debugger;
-    console.log('attempting a clear');
     var loc = document.getElementById('board');
     for (var i = 0; i < loc.rows.length; i++) {
       for (var j = 0; j < loc.rows[i].cells.length; j++) {
@@ -108,6 +111,7 @@ var TTT = function () {
         this.board[i][j] = '&nbsp';
       }
     }
+    this.gameOver = false;
     this.xTurn = true;
   }
 
@@ -116,5 +120,6 @@ var TTT = function () {
 // initialize game
 var TicTac = new TTT();
 TicTac.drawBoard();
+
 
 
