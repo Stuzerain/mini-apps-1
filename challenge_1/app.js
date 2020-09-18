@@ -6,8 +6,13 @@ var TTT = function () {
   // property to keep track of whose turn it is -- x when true, o when false
   this.xTurn = true;
 
+  // property to track whether game is done -- don't allow further edits to board
+  // if the game is over
+  this.gameOver = false;
+
   // simple 3x3 matrix representing a board for setup and to keep track
-  // of state of the board
+  // of state of the board -- &nbsp is an escape for a space so board isn't
+  // actually completely empty for rendering implications
   this.board = [
     ['&nbsp', '&nbsp', '&nbsp'],
     ['&nbsp', '&nbsp', '&nbsp'],
@@ -41,7 +46,7 @@ var TTT = function () {
     var col = item.attributes.gridspot.value[2];
     // first checks if space is empty -- only does anything if space is empty to
     // prevent overwriting another player's space
-    if (item.innerHTML === '&nbsp;') {
+    if (item.innerHTML === '&nbsp;' && !this.gameOver) {
       if (this.xTurn === true) {
         item.innerHTML = 'X';
         this.board[row][col] = 'X';
@@ -49,12 +54,26 @@ var TTT = function () {
         item.innerHTML = 'O';
         this.board[row][col] = 'O';
       }
-      console.log(row, col)
+      // console.log(row, col)
+      this.checkWin();
       this.xTurn = !this.xTurn;
     }
   }
 
+  // function that detects wins and ends the game if there is a win
+  // break into different functions for each direction?
+  this.checkWin = () => {
+    // debugger;
+    // check horizontal wins
+    for (var i = 0; i < this.board.length; i++) {
+      if (this.board[i][0] !== '&nbsp' && this.board[i][0] === this.board[i][1] && this.board[i][0] === this.board[i][2]) {
+        console.log('horizontal win');
+      }
+    }
+  }
+
   // function passed to clear button at end of board that empties every space on board
+  // also resets turns so X is first every time
   this.clearBoard = () => {
     // debugger;
     console.log('attempting a clear');
@@ -62,10 +81,11 @@ var TTT = function () {
     for (var i = 0; i < loc.rows.length; i++) {
       for (var j = 0; j < loc.rows[i].cells.length; j++) {
         loc.rows[i].cells[j].innerHTML = '&nbsp';
+        this.board[i][j] = '&nbsp';
       }
     }
+    this.xTurn = true;
   }
-
 
 }
 
@@ -73,23 +93,4 @@ var TTT = function () {
 var TicTac = new TTT();
 TicTac.drawBoard();
 
-// var drawBoard = (data) => {
-//   // debugger
-//   var loc = document.getElementById('Tic');
-//   data.forEach((row) => {
-//     var newRow = loc.insertRow(-1);
-//     for (var i = 0; i < row.length; i++) {
-//       var newCell = newRow.insertCell(i)
-//       newCell.innerHTML = row[i].val;
-//     }
-//     loc.appendChild(newRow);
-//   })
-// }
 
-
-// functions that are run when the page loads
-// var loadHerUp = function () {
-
-// }
-
-// window.onload = loadHerUp;
