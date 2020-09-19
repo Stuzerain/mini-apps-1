@@ -4,16 +4,20 @@
 <head>
   <meta charset='UTF-8'>
   <title>CSV Generator</title>
-  <!-- <script src="../node_modules/jquery/dist/jquery.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 
 <body>
   <h1>CSV Generator</h1>
   <form id='submission' method='post' action='/' target='_blank' enctype="multipart/form-data">
-    <input name='submission' value='submission' type='file' size='40'>
+    <input id='theFile' name='submission' value='submission' type='file' size='40'>
     <br>
-    <input type='submit' value='Send file'>
+    <!-- <input type='submit' value='Send file'> -->
   </form>
+
+  <div><button id='sender'>Submit</button></div>
+  <div><a id='downloader' href='http://localhost:3000/download' download='yourJSON.csv'>Download CSV</a></div>
+  <div id='response'></div>
 
   <script src='./app.js'></script>
 </body>
