@@ -9,7 +9,7 @@ app.use(express.urlencoded());
 
 
 
-app.post('/sub', (req, res) => {
+app.post('/', (req, res) => {
 
   var parsedReq = JSON.parse(req.body.submission)
   // console.log(parsedReq);
