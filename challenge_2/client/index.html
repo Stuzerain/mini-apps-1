@@ -4,14 +4,15 @@
 <head>
   <meta charset='UTF-8'>
   <title>CSV Generator</title>
+  <!-- <script src="../node_modules/jquery/dist/jquery.js"></script> -->
 </head>
 
 <body>
   <h1>CSV Generator</h1>
-  <form id='submission' method='post' action='/' target='_blank'>
-    <textarea name='submission' form='submission'></textarea>
+  <form id='submission' method='post' action='/' target='_blank' enctype="multipart/form-data">
+    <input name='submission' value='submission' type='file' size='40'>
     <br>
-    <input type='submit'>
+    <input type='submit' value='Send file'>
   </form>
 
   <script src='./app.js'></script>

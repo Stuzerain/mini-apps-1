@@ -1,21 +1,41 @@
 const express = require('express');
 const app = express();
 
+const multer = require('multer');
+// const fs = require('fs');
+
 app.use('/', express.static('client'))
 
 app.use(express.json());
 app.use(express.urlencoded());
+// app.use(fileUpload({
+//   createParentPath: true
+// }));
+// var upload = multer({ dest: 'uploads/csv.txt' });
+
+let upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, callback) => {
+      let type = req.params.type;
+      let path = `./uploads`;
+      callback(null, path);
+    },
+    filename: (req, file, callback) => {
+      //originalname is the uploaded file's name with extn
+      callback(null, file.originalname);
+    }
+  })
+});
 
 
 
-
-app.post('/', (req, res) => {
-
-  var parsedReq = JSON.parse(req.body.submission)
+app.post('/', upload.single('submission'), (req, res) => {
+  console.log('req.file is ', req.file)
+  // console.log('req.body is ', req.body)
+  // var parsedReq = JSON.parse(req.body.submission)
   // console.log(parsedReq);
-
-  res.send(generateCSV(parsedReq))
-  // res.redirect('/')
+  res.sendFile(`${__dirname}/uploads/sales_report.json`);
+  // res.send(generateCSV(parsedReq))
 })
 
 app.listen(3000, () => {
